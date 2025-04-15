@@ -23,7 +23,7 @@ This is a Bash script to automatically install and configure Nginx Proxy Manager
 
 ## Usage
 
-### 1. Clone or download the script
+### 1. Clone or download the repository
 ```bash
 git clone https://github.com/chunghieu1/nginx-proxy-manager.git
 cd nginx-proxy-manager
@@ -35,13 +35,21 @@ chmod +x install-npm.sh
 ./install-npm.sh
 ```
 
-### 3. Access Nginx Proxy Manager
+### 3. Alternatively, download and run the script directly
+If you prefer not to clone the repository, you can download the script directly using `wget`:
+```bash
+wget https://raw.githubusercontent.com/chunghieu1/nginx-proxy-manager/main/install-npm.sh
+chmod +x install-npm.sh
+./install-npm.sh
+```
+
+### 4. Access Nginx Proxy Manager
 Open your browser and navigate to your server's IP address with port 81:
 ```
 http://your-server-ip:81
 ```
 
-### 4. Login
+### 5. Login
 Use the default credentials:
 
 - Email: admin@example.com
