@@ -31,24 +31,46 @@ fi
 
 # Create configuration directory
 echo "Creating configuration directory for Nginx Proxy Manager..."
-mkdir -p ~/nginx-proxy-manager/data
+mkdir -p ~/nginx-proxy-manager/{data,letsencrypt,mysql}
 cd ~/nginx-proxy-manager
 
 # Create docker-compose.yml file
 echo "Creating docker-compose.yml file..."
 cat > docker-compose.yml <<EOF
-version: "3"
+version: '3'
+
 services:
   app:
     image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx-app
     restart: unless-stopped
     ports:
       - '80:80'
       - '81:81'
       - '443:443'
+    environment:
+      DB_MYSQL_HOST: "db"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "npm"
+      DB_MYSQL_PASSWORD: "npm"
+      DB_MYSQL_NAME: "npm"
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
+    depends_on:
+      - db
+
+  db:
+    image: 'jc21/mariadb-aria:latest'
+    container_name: nginx-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 'npm'
+      MYSQL_DATABASE: 'npm'
+      MYSQL_USER: 'npm'
+      MYSQL_PASSWORD: 'npm'
+    volumes:
+      - ./mysql:/var/lib/mysql
 EOF
 
 # Start Nginx Proxy Manager
